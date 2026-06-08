@@ -30,6 +30,7 @@ async function handleSave() {
 		const motivations = JSON.parse(localStorage.getItem("motivations") ?? "[]");
 		motivations.push({
 			...motivation.value,
+			id: crypto.randomUUID(),
 			createdAt: new Date().toISOString(),
 		});
 		localStorage.setItem("motivations", JSON.stringify(motivations));
