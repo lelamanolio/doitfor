@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 
 const routes = [
 	{
@@ -37,7 +39,6 @@ const router = createRouter({
 router.beforeEach(async (to) => {
 	const auth = useAuthStore();
 
-	// Aspetta che Firebase risolva lo stato auth
 	if (auth.loading) {
 		await new Promise((resolve) => {
 			const unwatch = auth.$subscribe(() => {
@@ -51,6 +52,18 @@ router.beforeEach(async (to) => {
 
 	if (!to.meta.public && !auth.isAuthenticated) {
 		return "/";
+	}
+
+	// Se va su /onboarding ma ha già completato → /home
+	if (to.path === "/onboarding" && auth.isAuthenticated) {
+		if (auth.user) {
+			const snap = await getDoc(doc(db, "users", auth.user.uid));
+			if (snap.exists() && snap.data().onboardingComplete) {
+				return "/home";
+			}
+		} else if (localStorage.getItem("onboardingComplete") === "true") {
+			return "/home";
+		}
 	}
 });
 

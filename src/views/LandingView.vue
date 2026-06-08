@@ -16,11 +16,6 @@ function handleGuest() {
 	auth.continueAsGuest();
 	router.push("/onboarding");
 }
-
-async function handleLogout() {
-	await auth.logout();
-	router.push("/");
-}
 </script>
 
 <template>
@@ -52,7 +47,6 @@ async function handleLogout() {
 		Continua con Google
 	</button>
 	<button @click="handleGuest">Continua come ospite</button>
-	<button @click="handleLogout">Logout</button>
 </template>
 
 <style lang="scss">
