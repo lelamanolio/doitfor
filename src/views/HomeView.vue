@@ -82,6 +82,7 @@ onBeforeMount(() => loadUserData());
 				{{ motivation.text }}
 				{{ motivation.image }}
 
+				<button @click="router.push(`/edit/${motivation.id}`)">Edit</button>
 				<button @click="handleDelete(motivation.id)">Delete</button>
 			</li>
 		</ul>

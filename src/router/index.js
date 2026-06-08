@@ -29,6 +29,11 @@ const routes = [
 		component: () => import("@/views/SettingsView.vue"),
 		meta: { public: false },
 	},
+	{
+		path: "/edit/:id",
+		component: () => import("@/views/AddMotivationView.vue"),
+		meta: { public: false },
+	},
 ];
 
 const router = createRouter({
