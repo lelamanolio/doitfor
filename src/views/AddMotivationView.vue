@@ -11,11 +11,14 @@ import {
 	updateDoc,
 } from "firebase/firestore";
 import { db } from "@/firebase";
+import { uploadImage } from "@/utils/uploadImage";
 
 const motivation = ref({
 	text: "",
 	image: null,
 });
+const imageFile = ref(null);
+const uploading = ref(false);
 
 const route = useRoute();
 const isEdit = computed(() => !!route.params.id);
@@ -23,12 +26,24 @@ const isEdit = computed(() => !!route.params.id);
 const auth = useAuthStore();
 const router = useRouter();
 
-async function handleLogout() {
-	await auth.logout();
-	router.push("/");
+function handleFileChange(event) {
+	const file = event.target.files[0];
+	if (!file) return;
+	if (file.size > 2 * 1024 * 1024) {
+		alert("Immagine troppo grande, massimo 2MB");
+		return;
+	}
+	imageFile.value = file;
 }
 
 async function handleSave() {
+	uploading.value = true;
+
+	// upload immagine se c'è un file selezionato
+	if (imageFile.value) {
+		motivation.value.image = await uploadImage(imageFile.value);
+	}
+
 	motivation.value.createdAt = serverTimestamp();
 
 	if (isEdit.value) {
@@ -67,6 +82,7 @@ async function handleSave() {
 		}
 	}
 
+	uploading.value = false;
 	router.push("/home");
 }
 
@@ -103,9 +119,16 @@ onBeforeMount(async () => {
 		<textarea v-model="motivation.text" />
 
 		<label>Image (optional)</label>
-		<input type="text" v-model="motivation.image" />
+		<input type="file" accept="image/*" @change="handleFileChange" />
+		<img
+			v-if="motivation.image"
+			:src="motivation.image"
+			style="max-width: 200px; margin-top: 8px"
+		/>
 
-		<button @click="handleSave">Save</button>
+		<button @click="handleSave" :disabled="uploading">
+			{{ uploading ? "Uploading..." : "Save" }}
+		</button>
 	</div>
 </template>
 

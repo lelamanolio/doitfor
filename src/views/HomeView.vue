@@ -80,7 +80,7 @@ onBeforeMount(() => loadUserData());
 		<ul>
 			<li v-for="motivation in motivations" :key="motivation.id">
 				{{ motivation.text }}
-				{{ motivation.image }}
+				<img :src="motivation.image" />
 
 				<button @click="router.push(`/edit/${motivation.id}`)">Edit</button>
 				<button @click="handleDelete(motivation.id)">Delete</button>
