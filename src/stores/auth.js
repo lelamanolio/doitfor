@@ -16,15 +16,20 @@ export const useAuthStore = defineStore("auth", () => {
 
 	function continueAsGuest() {
 		isGuest.value = true;
+		localStorage.setItem("isGuest", "true");
 	}
 
 	function logout() {
 		isGuest.value = false;
+		localStorage.removeItem("isGuest");
 		return signOut(auth);
 	}
 
 	onAuthStateChanged(auth, (firebaseUser) => {
 		user.value = firebaseUser;
+		if (!firebaseUser) {
+			isGuest.value = localStorage.getItem("isGuest") === "true";
+		}
 		loading.value = false;
 	});
 
