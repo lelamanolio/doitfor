@@ -1,0 +1,53 @@
+/**
+ * BASE
+ */
+
+@use "../00-settings/_settings" as settings;
+@use "../01-tools/_tools" as tools;
+
+html {
+	-moz-osx-font-smoothing: grayscale;
+	scroll-behavior: smooth;
+	color: var(--color-text);
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	font-family: settings.$font-family-primary;
+	font-size: settings.$font-size-s;
+	font-weight: 400;
+	background-color: var(--color-background);
+
+	@include tools.for-small-desktop-up {
+		font-size: settings.$font-size-m;
+	}
+}
+
+a {
+	text-decoration: none;
+	color: var(--color-text);
+	border-bottom: 0.125em solid var(--color-main);
+	box-shadow: inset 0 -0.125em 0 var(--color-main);
+	transition:
+		box-shadow 270ms cubic-bezier(0.77, 0, 0.175, 1),
+		color 270ms cubic-bezier(0.77, 0, 0.175, 1);
+
+	&:hover {
+		box-shadow: inset 0 -2em 0 var(--color-main);
+		color: var(--color-background);
+	}
+}
+
+strong {
+	font-weight: settings.$font-weight-black;
+}
+
+em {
+	font-style: italic;
+}
+
+p {
+	margin-block: 0.8em;
+}

@@ -1,0 +1,14 @@
+/**
+ * THEMES
+ */
+
+@use "colors" as colors;
+
+html {
+	--color-main: #{colors.$co-primary};
+	--color-main-dark: #{colors.$co-primary-dark};
+	--color-background: #{colors.$co-white};
+	--color-text: #{colors.$co-espresso};
+	--color-border: #{colors.$co-dirt};
+	--shadow-soft: 0 12px 32px rgba(96, 55, 37, 0.12);
+}

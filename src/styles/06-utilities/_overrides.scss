@@ -1,0 +1,17 @@
+/**
+ * OVERRIDES
+ */
+
+@use "../01-tools/_tools" as tools;
+
+.u-list-reset {
+	@include tools.list-reset;
+}
+
+.u-mb1 {
+	margin-block: 1em;
+}
+
+.u-mb2 {
+	margin-block: 2em;
+}
